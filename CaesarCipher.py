@@ -1,4 +1,6 @@
 import CryptographyTools as ct;
 
 text = input("Ciphertext: ")
-print(ct.formatCiphertext(text))
+text = ct.formatCiphertext;
+
+print(ct.ALPHABET_DICT)
