@@ -22,10 +22,9 @@ def sortKeysByValue(dictionary, reverse=True):
     keys = sorted(dictionary.keys(), key=lambda key: dictionary[key], reverse=reverse)
     return keys;
 
-def shiftLetterByValue(c, value, upper=True):
+def shiftLetterByValue(c, value, upper=True, positive=-1):
     caseShift = 64 if upper else 96
     index = ord(c) - caseShift;
-    index = (index + value) % 26;
-    index += caseShift;
-    
-    return chr(index)
+    outalpha = (index + positive * value) % 26;
+    output = outalpha + caseShift;
+    return chr(output)
