@@ -1,7 +1,8 @@
-import string;
+from DigramScores import digram_scores_dict
 
 ALPHABET = [chr(i) for i in range(65, 91)]
 ALPHABET_DICT = dict(zip(ALPHABET, [0 for i in range(26)]))
+DIGRAM_SCORES = digram_scores_dict
 
 englishFreq = {'E': 12.575645, 'T': 9.085226, 'A': 8.000395, 'O': 7.591270, 'I': 6.920007, 'N': 6.903785, 'S': 6.340880,
                'H': 6.236609, 'R': 5.959034, 'D': 4.317924, 'L': 4.057231, 'U': 2.841783, 'C': 2.575785, 'M': 2.560994,
