@@ -3,15 +3,15 @@ from statistics import mode
 
 #text = input("Ciphertext: ")
 text = "Adhz iypsspn, huk aol zspaof avclzKpk nfyl huk nptisl pu aol dhil:Hss tptzf dlyl aol ivyvnvclz,Huk aol tvtl yhaoz vbanyhil.Ildhyl aol Qhiilydvjr, tf zvu!Aol qhdz aoha ipal, aol jshdz aoha jhajo!Ildhyl aol Qbiqbi ipyk, huk zobuAol mybtpvbz Ihuklyzuhajo! "
-text = ct.formatCiphertext(text);
+text = ct.format_ciphertext(text);
 
 accuracyRange = 26
 
 cipherFreq = ct.frequency(text);
 englishFreq = ct.englishFreq;
 
-sortedKeys = ct.sortKeysByValue(cipherFreq);
-engSortedKeys = ct.sortKeysByValue(englishFreq);
+sortedKeys = ct.sort_keys_by_value(cipherFreq);
+engSortedKeys = ct.sort_keys_by_value(englishFreq);
 
 differences = []
 for i in range(accuracyRange):
@@ -26,7 +26,7 @@ print(key)
 
 plaintext = ""
 for char in text:
-    outchar = ct.shiftLetterByValue(char, key, upper=char.isupper())
+    outchar = ct.shift_letter_by_value(char, key, upper=char.isupper())
     plaintext += outchar
 
 print(plaintext)

@@ -23,11 +23,13 @@ text = ("ROREP MRTFO AMISS SEISI SETYL ILTHE YRBRA GAOUR HSENT OCAVE TEMPL EHEDT
         "AHGHT TTVEA ETRAC AEDTH TNTTE FOION REINT OINAT OBNAL UMOKS REGGL NESTH GIITM WEHTB EHORT DNXTE HTING EVEIN "
         "AGSTI TNTIO EVOCO BERTH ESOOK SRLLE HTBUT DIEEV WEENC EVEHA EHGAT OSRED SIFAR CYONL MUIRC TNSTA NAIAL CEDTH "
         "OSOST TRFFU NEHER IRQUI UOESC SELDB ATUBS LANTI")
-text = ct.formatCiphertext(text);
+text = ct.format_ciphertext(text)
 
 tryLength = 5
 
 # the idea here, is to guess a keyword length - then, split it into columns and perform digram analysis
 # try different ones until it seems similar to english
 # https://homepages.math.uic.edu/~leon/mcs425-s08/handouts/breaking_tranposition_cipher.pdf
+
+
 
