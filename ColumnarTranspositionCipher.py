@@ -1,4 +1,4 @@
-import CryptographyTools as ct;
+import CryptographyTools as ct
 
 # text = input("Ciphertext: ")
 text = ("ROREP MRTFO AMISS SEISI SETYL ILTHE YRBRA GAOUR HSENT OCAVE TEMPL EHEDT QNIRE EIUIR ADSAN WOREN OPINA OISIT "
@@ -30,6 +30,17 @@ tryLength = 5
 # the idea here, is to guess a keyword length - then, split it into columns and perform digram analysis
 # try different ones until it seems similar to english
 # https://homepages.math.uic.edu/~leon/mcs425-s08/handouts/breaking_tranposition_cipher.pdf
+
+cosets = ct.split_cosets(tryLength, text)
+
+
+def score_column_pair(column1: str, column2: str) -> float:
+        """Returns a value based on how likely 2 columns are to be next to each other."""
+
+
+
+
+
 
 
 

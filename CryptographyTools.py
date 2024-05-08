@@ -17,7 +17,7 @@ def format_ciphertext(text) -> str:
 
 def frequency(text, percentage=True) -> dict[str, int]:
     """Gives the frequency of each letter (with case) as a list. Percentage by default."""
-    output = ALPHABET_DICT;
+    output = ALPHABET_DICT
     for char in text:
         output[char] += 1
     if percentage:
@@ -26,8 +26,8 @@ def frequency(text, percentage=True) -> dict[str, int]:
     return output
 
 
-def sort_keys_by_value(dictionary, reverse=True) -> dict:
-    """Sorts a dictionary by its values."""
+def sort_keys_by_value(dictionary, reverse=True) -> list:
+    """Returns a list of keys, sorted by their values in given dictionary."""
     keys = sorted(dictionary.keys(), key=lambda key: dictionary[key], reverse=reverse)
     return keys
 
@@ -36,6 +36,33 @@ def shift_letter_by_value(char, amount, upper=True, positive=-1) -> str:
     """Shift letter by amount in the alphabet. Cyclic."""
     caseShift = 64 if upper else 96
     index = ord(char) - caseShift
-    outalpha = (index + positive * amount) % 26
-    output = outalpha + caseShift
+    out_alpha = (index + positive * amount) % 26
+    output = out_alpha + caseShift
     return chr(output)
+
+
+def split_cosets(key_length, text) -> list[list[str]]:
+    """Splits a string into cosets mod key_length"""
+    output = [[] for i in range(0, key_length)]
+
+    pos = 0
+    for char in text:
+        output[pos % key_length].append(char)
+        pos += 1
+
+    for i in range(0, len(output)):
+        output[i] = "".join(output[i])
+
+    return output
+
+
+def trim_to_shared_size(str1: str, str2: str) -> (str, str):
+    """Returns 2 strings trimmed to the maximum size they share."""
+    size = min(len(str1), len(str2))
+    return str1[:size], str2[:size]
+
+
+
+
+
+
