@@ -57,10 +57,10 @@ def split_cosets(key_length, text) -> list[list[str]]:
     return output
 
 
-def trim_to_shared_size(str1: str, str2: str) -> (str, str):
+def trim_to_shared_size(str1: str, str2: str) -> (str, str, int):
     """Returns 2 strings trimmed to the maximum size they share."""
     size = min(len(str1), len(str2))
-    return str1[:size], str2[:size]
+    return str1[:size], str2[:size], size
 
 
 

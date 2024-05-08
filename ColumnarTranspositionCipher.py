@@ -35,7 +35,16 @@ cosets = ct.split_cosets(tryLength, text)
 
 
 def score_column_pair(column1: str, column2: str) -> float:
-        """Returns a value based on how likely 2 columns are to be next to each other."""
+    """Returns a value based on how likely 2 columns are to be next to each other."""
+    column1, column2, size = ct.trim_to_shared_size(column1, column2)
+    total = 0
+    for l, m in zip(column1, column2):
+        total += ct.digram_scores_dict[f"{l}{m}"]
+    return total / size
+
+
+
+
 
 
 
