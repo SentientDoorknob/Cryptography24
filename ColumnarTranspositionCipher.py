@@ -42,20 +42,24 @@ def score_column_pair(column1: str, column2: str) -> float | str:
     return total / size
 
 
-def evaluate_ciphertext(text: str, try_length: int) -> list[float | str]:
+def evaluate_ciphertext(text: str, try_length: int) -> list[list[float | str]]:
     """Evaluate all pairs of columns in ciphertext. Takes the key length and text to evaluate."""
     columns = ct.split_cosets(text, try_length)
 
-    results = []
-    for column1 in columns:
+    results = [[] for i in range(try_length)]
+    for i, column1 in enumerate(columns):
         for column2 in columns:
             score = score_column_pair(column1, column2)
-            results.append(score)
+            results[i].append(score)
     return results
 
 
-def format_results(results):
-    pass
+print(evaluate_ciphertext(ciphertext, 4))
+
+def format_results(results: list):
+    """Prints the results of the ciphertext evaluation in a readable way."""
+
+
 
 
 
