@@ -29,11 +29,21 @@ ciphertext = ct.format_ciphertext(ciphertext)
 # try different ones until it seems similar to english
 # https://homepages.math.uic.edu/~leon/mcs425-s08/handouts/breaking_tranposition_cipher.pdf
 
+GRID = ">7.2"
+YELLOW = "\033[93m"
+GREEN = "\033[92m"
+RED = "\033[91m"
+
+RESET = "\033[0m"
+
+TRY_LENGTH = 5
+ACCURACY_THRESHOLD = 1
+
 
 def score_column_pair(column1: str, column2: str) -> float | str:
     """Returns a value based on how likely 2 columns are to be next to each other."""
     if column1 == column2:
-        return "N/A"
+        return "-----"
 
     column1, column2, size = ct.trim_to_shared_size(column1, column2)
     total = 0
@@ -47,6 +57,7 @@ def evaluate_ciphertext(text: str, try_length: int) -> list[list[float | str]]:
     columns = ct.split_cosets(text, try_length)
 
     results = [[] for i in range(try_length)]
+    average = 0
     for i, column1 in enumerate(columns):
         for column2 in columns:
             score = score_column_pair(column1, column2)
@@ -54,10 +65,29 @@ def evaluate_ciphertext(text: str, try_length: int) -> list[list[float | str]]:
     return results
 
 
-print(evaluate_ciphertext(ciphertext, 4))
-
 def format_results(results: list):
     """Prints the results of the ciphertext evaluation in a readable way."""
+    total_green = 0
+    for row in results:
+        output = ""
+        for item in row:
+            colour = ""
+            if isinstance(item, float) and item > 0:
+                colour = GREEN
+                total_green += 1
+            output += f"{colour}{item:{GRID}}{RESET} "
+        print(output)
+
+    color = GREEN if abs(total_green - TRY_LENGTH) <= ACCURACY_THRESHOLD else RED
+    print(f"Total greens: {color}{total_green}{RESET}")
+
+
+result = evaluate_ciphertext(ciphertext, TRY_LENGTH)
+print(result)
+print()
+format_results(result)
+
+
 
 
 
