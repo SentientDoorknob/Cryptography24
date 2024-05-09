@@ -63,6 +63,17 @@ def trim_to_shared_size(str1: str, str2: str) -> (str, str, int):
     return str1[:size], str2[:size], size
 
 
+def average_list(iterable: list) -> float:
+    print(iterable)
+    int_list = [i for i in iterable if isinstance(i, float)]
+    print(int_list)
+    return sum(int_list) / len(int_list)
+
+
+def unpack_list_list(nested_list: list[list]) -> list:
+    return [item for sublist in nested_list for item in sublist]
+
+
 
 
 
