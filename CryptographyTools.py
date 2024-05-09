@@ -74,6 +74,16 @@ def unpack_list_list(nested_list: list[list]) -> list:
     return [item for sublist in nested_list for item in sublist]
 
 
+def chi_squared_english(text: str) -> float:
+    """Implementation of the chi^2 formula."""
+    pass
+
+
+def index_of_coincidence(text: str) -> float:
+    """Implementation of the index of coincidence formula."""
+    pass
+
+
 
 
 
