@@ -42,7 +42,7 @@ def shift_letter_by_value(char, amount, upper=True, positive=-1) -> str:
     return chr(output)
 
 
-def split_cosets(key_length, text) -> list[list[str]]:
+def split_cosets(key_length, text) -> list[str | list]:
     """Splits a string into cosets mod key_length."""
     output = [[] for i in range(0, key_length)]
 

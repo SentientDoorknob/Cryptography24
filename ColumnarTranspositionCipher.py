@@ -1,7 +1,7 @@
 import CryptographyTools as ct
 
 # text = input("Ciphertext: ")
-text = ("ROREP MRTFO AMISS SEISI SETYL ILTHE YRBRA GAOUR HSENT OCAVE TEMPL EHEDT QNIRE EIUIR ADSAN WOREN OPINA OISIT "
+ciphertext = ("ROREP MRTFO AMISS SEISI SETYL ILTHE YRBRA GAOUR HSENT OCAVE TEMPL EHEDT QNIRE EIUIR ADSAN WOREN OPINA OISIT "
         "ERNTO TTPOR FRHEI NIIND EHGST SEYAR RAUMM BDISE WWELO LUEWO AHDBE OTPPY FETAK EHURT TSRIN ITRUC FIONS RPYOU "
         "TREFE MROTE ETINA NITHE ITVES OIGAT TWNNO EWHEN DLWOU ARBEG LUTEF CETOR NEEIV IFOTI OICAT HTNSO CEATW TEANS "
         "OYTLE CCURA ATOUN OBTHE SADYW OTTHA UOFAY NANGM ORAPP TAXIM WTELY TYENT YEHRE OSEAR TILDW NOHBL RIDHA DAAND "
@@ -23,24 +23,46 @@ text = ("ROREP MRTFO AMISS SEISI SETYL ILTHE YRBRA GAOUR HSENT OCAVE TEMPL EHEDT
         "AHGHT TTVEA ETRAC AEDTH TNTTE FOION REINT OINAT OBNAL UMOKS REGGL NESTH GIITM WEHTB EHORT DNXTE HTING EVEIN "
         "AGSTI TNTIO EVOCO BERTH ESOOK SRLLE HTBUT DIEEV WEENC EVEHA EHGAT OSRED SIFAR CYONL MUIRC TNSTA NAIAL CEDTH "
         "OSOST TRFFU NEHER IRQUI UOESC SELDB ATUBS LANTI")
-text = ct.format_ciphertext(text)
-
-tryLength = 5
+ciphertext = ct.format_ciphertext(ciphertext)
 
 # the idea here, is to guess a keyword length - then, split it into columns and perform digram analysis
 # try different ones until it seems similar to english
 # https://homepages.math.uic.edu/~leon/mcs425-s08/handouts/breaking_tranposition_cipher.pdf
 
-cosets = ct.split_cosets(tryLength, text)
 
-
-def score_column_pair(column1: str, column2: str) -> float:
+def score_column_pair(column1: str, column2: str) -> float | str:
     """Returns a value based on how likely 2 columns are to be next to each other."""
+    if column1 == column2:
+        return "N/A"
+
     column1, column2, size = ct.trim_to_shared_size(column1, column2)
     total = 0
     for l, m in zip(column1, column2):
         total += ct.digram_scores_dict[f"{l}{m}"]
     return total / size
+
+
+def evaluate_ciphertext(text: str, try_length: int) -> list[float | str]:
+    """Evaluate all pairs of columns in ciphertext. Takes the key length and text to evaluate."""
+    columns = ct.split_cosets(text, try_length)
+
+    results = []
+    for column1 in columns:
+        for column2 in columns:
+            score = score_column_pair(column1, column2)
+            results.append(score)
+    return results
+
+
+def format_results(results):
+    pass
+
+
+
+
+
+
+
 
 
 
