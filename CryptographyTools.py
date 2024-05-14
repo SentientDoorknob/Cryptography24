@@ -4,10 +4,16 @@ ALPHABET = [chr(i) for i in range(65, 91)]
 ALPHABET_DICT = dict(zip(ALPHABET, [0 for i in range(26)]))
 DIGRAM_SCORES = digram_scores_dict
 
+choose_2 = lambda x: x * (x - 1)
+
 englishFreq = {'E': 12.575645, 'T': 9.085226, 'A': 8.000395, 'O': 7.591270, 'I': 6.920007, 'N': 6.903785, 'S': 6.340880,
                'H': 6.236609, 'R': 5.959034, 'D': 4.317924, 'L': 4.057231, 'U': 2.841783, 'C': 2.575785, 'M': 2.560994,
                'F': 2.350463, 'W': 2.224893, 'G': 1.982677, 'Y': 1.900888, 'P': 1.795742, 'B': 1.535701, 'V': 0.981717,
                'K': 0.739906, 'X': 0.179556, 'J': 0.145188, 'Q': 0.117571, 'Z': 0.079130}
+
+
+def dict_map(dictionary: dict, func) -> dict:
+    return {k:func(v) for k, v in dictionary.items()}
 
 
 def format_ciphertext(text) -> str:
@@ -16,15 +22,17 @@ def format_ciphertext(text) -> str:
     return "".join(list(text)).upper()
 
 
-def frequency(text, percentage=True) -> dict[str, int]:
-    """Gives the frequency of each letter (with case) as a list. Percentage by default."""
-    output = ALPHABET_DICT
+def frequency(text, mode="") -> dict[str, int]:
+    """Gives the frequency of each letter (with case) as a list."""
+    length = len(text)
+    output = ALPHABET_DICT.copy()
     for char in text:
         output[char] += 1
-    if percentage:
-        for key in output:
-            output[key] = output[key] / len(text) * 100
-    return output
+
+    match mode:
+        case "%": return dict_map(output, lambda x: x / length * 100)
+        case ".": return dict_map(output, lambda x: x / length)
+        case _: return output
 
 
 def sort_keys_by_value(dictionary, reverse=True) -> list:
@@ -81,7 +89,19 @@ def chi_squared_english(text: str) -> float:
 
 def index_of_coincidence(text: str) -> float:
     """Implementation of the index of coincidence formula."""
-    pass
+    text_len = len(text)
+    length_multiplier = 1 / choose_2(text_len)
+    frequencies = frequency(text)
+
+    sum = 0
+    for letter, f in frequencies.items():
+        sum += choose_2(f)
+    return sum * length_multiplier
+
+
+
+
+
 
 
 
