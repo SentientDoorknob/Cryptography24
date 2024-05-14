@@ -10,17 +10,43 @@ ciphertext = ("DAZFI SFSPA VQLSN PXYSZ WXALC DAFGQ UISMT PHZGA MKTTF TCCFX KFCRG
               "OVVXH KWQIL IEUYS ZWXAH HUSZO GMUZQ CIMVZ UVWIF JJHPW VXFSE TZEDF")
 ciphertext = ct.format_ciphertext(ciphertext)
 
+THRESHOLD = 0.01
 
-def get_keyword_length(text: str, length_attempt: int):
+
+def display_result(result: (int, float, float)):
+    colour = ct.GREEN if result[2] < THRESHOLD else ct.RED
+    print(colour)
+    print(f"Keyword Length: {result[0]} \nAverage IoC: {result[1]} \nDifference from English IoC: {result[2]}")
+
+
+def try_length(text: str, length_attempt: int) -> (int, float, float):
+    """Uses coset analysis (IoC) to determine likelihood of key length being correct."""
+    columns = ct.split_cosets(text, length_attempt)
+
+    sum = 0
+    for coset in columns:
+        sum += ct.index_of_coincidence(coset)
+    average = sum / length_attempt
+    return length_attempt, average, ct.ENG_IC - average
+
+
+def get_keyword_length(text: str, max_try_length: int):
     """Estimate keyword length. (Manual)"""
-    pass
+    results = []
+    for i in range(2, max_try_length + 1):
+        results.append(try_length(text, i))
+
+    for result in results:
+        display_result(result)
+
+
+get_keyword_length(ciphertext, 15)
 
 # -=-=-=-=-=-=-=-=-  Given tested keyword length.... -=-=-=-=-=-=-=-=-
 # Method:
 
-keyword_length = 5
-
-print(ct.index_of_coincidence(ciphertext))
+# keyword_length = input("Enter estimate (see above): ")
+keyword_length = 14
 
 def decrypt_coset(coset: str) -> str:
     """Given one coset, solve like caesar cipher. (Manual?)"""
