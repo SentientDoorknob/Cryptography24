@@ -49,7 +49,7 @@ def sort_keys_by_value(dictionary, reverse=True) -> list:
     return keys
 
 
-def shift_letter_by_value(char, amount, upper=True, positive=-1) -> str:
+def shift_letter_by_value(char, amount, upper=True, positive=1) -> str:
     """Shift letter by amount in the alphabet. Cyclic."""
     caseShift = 64 if upper else 96
     index = ord(char) - caseShift
@@ -105,6 +105,21 @@ def index_of_coincidence(text: str) -> float:
     for letter, f in frequencies.items():
         sum += choose_2(f)
     return sum * length_multiplier
+
+
+def shift_string_by_value(text, value: int, upper=True):
+    output = ""
+    for letter in text:
+        output += shift_letter_by_value(letter, value, upper)
+    return output
+
+
+def shift_string_by_letter(text, char: str, upper=True):
+    output = ""
+    caseshift = 65 if upper else 97
+    for letter in text:
+        output += shift_letter_by_value(letter, ord(char) - caseshift, upper)
+    return output
 
 
 

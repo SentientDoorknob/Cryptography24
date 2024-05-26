@@ -48,6 +48,8 @@ get_keyword_length(ciphertext, 15)
 # keyword_length = input("Enter estimate (see above): ")
 keyword_length = 14
 
+print(ct.shift_string_by_letter("ABCDEFGHIJKLMNOP", "D"))
+
 def decrypt_coset(coset: str) -> str:
     """Given one coset, solve like caesar cipher. (Manual?)"""
     pass
