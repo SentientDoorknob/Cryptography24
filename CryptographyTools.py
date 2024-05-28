@@ -19,6 +19,12 @@ englishFreq = {'E': 12.575645, 'T': 9.085226, 'A': 8.000395, 'O': 7.591270, 'I':
                'F': 2.350463, 'W': 2.224893, 'G': 1.982677, 'Y': 1.900888, 'P': 1.795742, 'B': 1.535701, 'V': 0.981717,
                'K': 0.739906, 'X': 0.179556, 'J': 0.145188, 'Q': 0.117571, 'Z': 0.079130}
 
+englishFreqDecimal = {'E': 0.12575645, 'T': 0.09085226, 'A': 0.08000395, 'O': 0.07591270, 'I': 0.06920007, 'N': 0.06903785,
+               'S': 0.06340880, 'H': 0.06236609, 'R': 0.05959034, 'D': 0.04317924, 'L': 0.04057231, 'U': 0.02841783,
+               'C': 0.02575785, 'M': 0.02560994, 'F': 0.02350463, 'W': 0.02224893, 'G': 0.01982677, 'Y': 0.01900888,
+               'P': 0.01795742, 'B': 0.01535701, 'V': 0.00981717, 'K': 0.00739906, 'X': 0.00179556, 'J': 0.00145188,
+               'Q': 0.00117571, 'Z': 0.00079130}
+
 
 def dict_map(dictionary: dict, func) -> dict:
     return {k:func(v) for k, v in dictionary.items()}
@@ -30,7 +36,7 @@ def format_ciphertext(text) -> str:
     return "".join(list(text)).upper()
 
 
-def frequency(text, mode="") -> dict[str, int]:
+def frequency(text, mode="") -> dict[str, int | float]:
     """Gives the frequency of each letter (with case) as a list."""
     length = len(text)
     output = ALPHABET_DICT.copy()
@@ -60,6 +66,7 @@ def shift_letter_by_value(char, amount, upper=True, positive=1) -> str:
 
 def split_cosets(text, key_length) -> list[str | list]:
     """Splits a string into cosets mod key_length."""
+    print("Here1")
     output = [[] for i in range(0, key_length)]
 
     pos = 0
@@ -92,7 +99,16 @@ def unpack_list_list(nested_list: list[list]) -> list:
 
 def chi_squared_english(text: str) -> float:
     """Implementation of the chi^2 formula."""
-    pass
+    print("Here2")
+    observed = frequency(text, ".")
+    expected = englishFreqDecimal
+
+    total = 0
+    for letter in ALPHABET:
+        term = ((observed[letter] - expected[letter]) ** 2) / expected[letter]
+        total += term
+
+    return total
 
 
 def index_of_coincidence(text: str) -> float:
