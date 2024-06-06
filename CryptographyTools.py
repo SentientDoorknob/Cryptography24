@@ -1,4 +1,5 @@
 from DigramScores import digram_scores_dict
+import itertools
 
 ALPHABET = [chr(i) for i in range(65, 91)]
 ALPHABET_DICT = dict(zip(ALPHABET, [0 for i in range(26)]))
@@ -60,13 +61,13 @@ def shift_letter_by_value(char, amount, upper=True, positive=1) -> str:
     caseShift = 64 if upper else 96
     index = ord(char) - caseShift
     out_alpha = (index + positive * amount) % 26
+    if out_alpha == 0: out_alpha = 26
     output = out_alpha + caseShift
     return chr(output)
 
 
 def split_cosets(text, key_length) -> list[str | list]:
     """Splits a string into cosets mod key_length."""
-    print("Here1")
     output = [[] for i in range(0, key_length)]
 
     pos = 0
@@ -97,9 +98,12 @@ def unpack_list_list(nested_list: list[list]) -> list:
     return [item for sublist in nested_list for item in sublist]
 
 
+def interleave(*values):
+    return list(itertools.chain(*zip(*values)))
+
+
 def chi_squared_english(text: str) -> float:
     """Implementation of the chi^2 formula."""
-    print("Here2")
     observed = frequency(text, ".")
     expected = englishFreqDecimal
 
@@ -123,19 +127,21 @@ def index_of_coincidence(text: str) -> float:
     return sum * length_multiplier
 
 
-def shift_string_by_value(text, value: int, upper=True):
+def shift_string_by_value(text, value: int, upper=True, positive=1):
     output = ""
     for letter in text:
-        output += shift_letter_by_value(letter, value, upper)
+        output += shift_letter_by_value(letter, value, upper, positive)
     return output
 
 
-def shift_string_by_letter(text, char: str, upper=True):
-    output = ""
+def shift_string_by_letter(text, char: str, upper=True, positive=1):
     caseshift = 65 if upper else 97
-    for letter in text:
-        output += shift_letter_by_value(letter, ord(char) - caseshift, upper)
-    return output
+    return shift_string_by_value(text, ord(char) - caseshift, upper=upper, positive=positive)
+
+
+def sort_tuples_by_element(iterable, index, mode="min"):
+    return sorted(iterable, key=lambda x: x[index], reverse=(mode != "min"))
+
 
 
 
