@@ -54,6 +54,7 @@ def format_results(results):
     for result in results:
         print(*result)
         print()
+    print()
 
 
 def decrypt_coset(coset: str):
@@ -79,6 +80,7 @@ def get_keyword(text: str, k_length) -> str:
         likely_cosets.append(list(result[2]))
 
     print("".join(ct.interleave(*likely_cosets)))
+    print("\n")
     print(keyword)
 
 
