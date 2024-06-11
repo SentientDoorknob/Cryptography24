@@ -26,6 +26,8 @@ englishFreqDecimal = {'E': 0.12575645, 'T': 0.09085226, 'A': 0.08000395, 'O': 0.
                'P': 0.01795742, 'B': 0.01535701, 'V': 0.00981717, 'K': 0.00739906, 'X': 0.00179556, 'J': 0.00145188,
                'Q': 0.00117571, 'Z': 0.00079130}
 
+root_key_dict = dict([(letter, letter) for letter in ALPHABET])
+
 
 def dict_map(dictionary: dict, func) -> dict:
     return {k:func(v) for k, v in dictionary.items()}
@@ -141,6 +143,14 @@ def shift_string_by_letter(text, char: str, upper=True, positive=1):
 
 def sort_tuples_by_element(iterable, index, mode="min"):
     return sorted(iterable, key=lambda x: x[index], reverse=(mode != "min"))
+
+
+def substitute(text, key_dict):
+    text = list(text)
+    for i, letter in enumerate(text):
+        text[i] = key_dict[letter]
+    return "".join(text)
+
 
 
 
