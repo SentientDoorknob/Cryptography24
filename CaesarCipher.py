@@ -8,7 +8,7 @@ text = ct.format_ciphertext(text);
 accuracyRange = 26
 
 cipherFreq = ct.frequency(text);
-englishFreq = ct.englishFreq;
+englishFreq = ct.ENGLISH_FREQ;
 
 sortedKeys = ct.sort_keys_by_value(cipherFreq);
 engSortedKeys = ct.sort_keys_by_value(englishFreq);

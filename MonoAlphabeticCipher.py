@@ -1,4 +1,5 @@
 import CryptographyTools as ct
+import random
 
 DIFFERENCE_THRESHOLD = 0.01
 
@@ -23,14 +24,38 @@ else:
 print(ct.RESET)
 print()
 
-key = ct.root_key_dict
+current_key = ct.root_key_dict
 current_chi_squared = ct.chi_squared_english(ciphertext)
-moves = 1
+moves = 3
+
+
+def change_key(key, swaps):
+    for i in range(swaps):
+        a = random.choice(ct.ALPHABET)
+        b = random.choice(ct.ALPHABET)
+
+        temp = key[a]
+        key[a] = key[b]
+        key[b] = temp
+
+    return key
 
 
 def learn():
-    pass
+    prop_key = change_key(current_key, moves)
+    prop_text = ct.substitute(ciphertext, prop_key)
+
+    prop_c2 = ct.chi_squared_english(prop_text)
+
+    if prop_c2 < current_chi_squared:
+        print(prop_text)
+        return prop_c2, prop_key
+    else:
+        print(prop_text)
+        return current_chi_squared, current_key
 
 
-learn()
+while True:
+    current_chi_squared, current_key = learn()
+    input()
 
