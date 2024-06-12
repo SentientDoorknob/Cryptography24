@@ -1,7 +1,10 @@
+import random
+
 from DigramScores import digram_scores_dict
 import itertools
 
 ALPHABET = [chr(i) for i in range(65, 91)]
+ALPHABET_STR = "".join(ALPHABET)
 ALPHABET_DICT = dict(zip(ALPHABET, [0 for i in range(26)]))
 DIGRAM_SCORES = digram_scores_dict
 
@@ -15,16 +18,16 @@ GREEN = "\033[92m"
 RED = "\033[91m"
 RESET = "\033[0m"
 
-englishFreq = {'E': 12.575645, 'T': 9.085226, 'A': 8.000395, 'O': 7.591270, 'I': 6.920007, 'N': 6.903785, 'S': 6.340880,
+ENGLISH_FREQ = {'E': 12.575645, 'T': 9.085226, 'A': 8.000395, 'O': 7.591270, 'I': 6.920007, 'N': 6.903785, 'S': 6.340880,
                'H': 6.236609, 'R': 5.959034, 'D': 4.317924, 'L': 4.057231, 'U': 2.841783, 'C': 2.575785, 'M': 2.560994,
                'F': 2.350463, 'W': 2.224893, 'G': 1.982677, 'Y': 1.900888, 'P': 1.795742, 'B': 1.535701, 'V': 0.981717,
                'K': 0.739906, 'X': 0.179556, 'J': 0.145188, 'Q': 0.117571, 'Z': 0.079130}
 
-englishFreqDecimal = dict(E=0.12575645, T=0.09085226, A=0.08000395, O=0.07591270, I=0.06920007, N=0.06903785,
-                          S=0.06340880, H=0.06236609, R=0.05959034, D=0.04317924, L=0.04057231, U=0.02841783,
-                          C=0.02575785, M=0.02560994, F=0.02350463, W=0.02224893, G=0.01982677, Y=0.01900888,
-                          P=0.01795742, B=0.01535701, V=0.00981717, K=0.00739906, X=0.00179556, J=0.00145188,
-                          Q=0.00117571, Z=0.00079130)
+ENGLISH_FREQ_DECIMAL = dict(E=0.12575645, T=0.09085226, A=0.08000395, O=0.07591270, I=0.06920007, N=0.06903785,
+                            S=0.06340880, H=0.06236609, R=0.05959034, D=0.04317924, L=0.04057231, U=0.02841783,
+                            C=0.02575785, M=0.02560994, F=0.02350463, W=0.02224893, G=0.01982677, Y=0.01900888,
+                            P=0.01795742, B=0.01535701, V=0.00981717, K=0.00739906, X=0.00179556, J=0.00145188,
+                            Q=0.00117571, Z=0.00079130)
 
 root_key_dict = dict([(letter, letter) for letter in ALPHABET])
 
@@ -110,7 +113,7 @@ def interleave(*values):
 def chi_squared_english(text: str) -> float:
     """Implementation of the chi^2 formula."""
     observed = frequency(text, ".")
-    expected = englishFreqDecimal
+    expected = ENGLISH_FREQ_DECIMAL
 
     total = 0
     for letter in ALPHABET:
@@ -147,24 +150,36 @@ def shift_string_by_letter(text, char: str, upper=True, positive=1):
 def sort_tuples_by_element(iterable, index, mode="min"):
     return sorted(iterable, key=lambda x: x[index], reverse=(mode != "min"))
 
+def get_key_guess(text):
+    frequencies = frequency(text, "%")
+    sorted_frequencies = list(sort_tuples_by_element(frequencies.items(), 1, mode="max"))
 
-def substitute(text, key_dict):
+    print(list(ENGLISH_FREQ))
+    key_list = []
+    for pair in zip([i[0] for i in list(ENGLISH_FREQ)], [i[0] for i in sorted_frequencies]):
+        key_list.append(pair)
+    key_list = sort_tuples_by_element(key_list, 0)
+    key_list = dict(key_list)
+    return "".join(key_list.values())
+
 
 
 
 class SubstitutionKey:
-    def __init__(self, str_key):
-        self.dict = {ALPHABET: str_key[i] for i in range(len(str_key))}
-        self.str = str_key
+    def __init__(self, str_key: str):
+        self.dict = dict([(ALPHABET[i], str_key[i]) for i in range(len(str_key))])
 
-    def update_str(self):
-        self.str = "".join(self.dict.values())
-
-    def update_dict(self):
-        self.dict = {ALPHABET: self.str[i] for i in range(len(self.str))}
+    def __str__(self):
+        return "".join(self.dict.values())
 
     def substitute(self, text):
         text = list(text)
         for i, letter in enumerate(text):
             text[i] = self.dict[letter]
         return "".join(text)
+
+    def swap(self, a, b):
+        self.dict[a], self.dict[b] = self.dict[b], self.dict[a]
+
+    def swap_random(self):
+        self.swap(random.choice(ALPHABET), random.choice(ALPHABET))
