@@ -83,9 +83,6 @@ def get_keyword(text: str, k_length) -> str:
     print("\n")
     print(keyword)
 
-
-example = "VVQGY TVVVK ALURW FHQAC MMVLE HUCAT WFHHI PLXHV UWSCI GINCM UHNHQ RMSUI MHWZO DXTNA EKVVQ GYTVV QPHXI NWCAB ASYYM TKSZR CXWRP RFWYH XYGFI PSBWK QAMZY BXJQQ ABJEM TCHQS NAEKV VQGYT VVPCA QPBSL URQUC VMVPQ UTMML VHWDH NFIKJ CPXMY EIOCD TXBJW KQGAN"
-
 example = ct.format_ciphertext(ciphertext)
 get_keyword(example, keyword_length)
 

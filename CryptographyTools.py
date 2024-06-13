@@ -110,10 +110,13 @@ def interleave(*values):
     return list(itertools.chain(*zip(*values)))
 
 
-def chi_squared_english(text: str) -> float:
+def chi_squared_english(text: str, expected = None) -> float:
     """Implementation of the chi^2 formula."""
-    observed = frequency(text, ".")
-    expected = ENGLISH_FREQ_DECIMAL
+    observed = frequency(text)
+    length = len(text)
+
+    if expected is None:
+        expected = dict_map(ENGLISH_FREQ_DECIMAL, lambda x: x * length)
 
     total = 0
     for letter in ALPHABET:
@@ -183,3 +186,6 @@ class SubstitutionKey:
 
     def swap_random(self):
         self.swap(random.choice(ALPHABET), random.choice(ALPHABET))
+
+    def __copy__(self):
+        return SubstitutionKey(str(self))
