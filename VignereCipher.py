@@ -83,6 +83,7 @@ def get_keyword(text: str, k_length) -> str:
     print("\n")
     print(keyword)
 
+
 example = ct.format_ciphertext(ciphertext)
 get_keyword(example, keyword_length)
 
